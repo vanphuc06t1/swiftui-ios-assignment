@@ -23,4 +23,10 @@ Apply MVVM architecture pattern.
 
  5. **Common**
 	 * LoadingView and ActivityIndicatorView for loading activity view
+
+### Video Demo
+
+https://user-images.githubusercontent.com/4506079/131960208-c7ec5656-e09c-450f-82da-c63ec99e6ea4.mov
+
+
  
