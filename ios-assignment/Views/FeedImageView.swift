@@ -23,7 +23,7 @@ struct FeedImageView: View {
             if let data = viewModel.imageData, let uiImage = UIImage(data: data) {
                 Image(uiImage: uiImage)
                     .resizable()
-                    .aspectRatio(1, contentMode: .fit)
+                    .cornerRadius(4)
                     .frame(width: width, height: height)
             } else if viewModel.isLoading {
                 ProgressView()

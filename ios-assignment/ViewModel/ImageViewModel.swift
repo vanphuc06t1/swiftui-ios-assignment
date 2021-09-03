@@ -21,33 +21,42 @@ extension FeedImageView {
 
         //MARK: - Properties
         private static let cache = NSCache<NSURL, NSData>()
-
         private var cancellables = Set<AnyCancellable>()
+        
+        private let imageQueue = DispatchQueue(label: "feed.imagequeue", attributes: .concurrent)
 
         //MARK: - Public functions
         func loadImage(from url: URL?) {
             isLoading = true
-            guard let url = url else {
-                isLoading = false
-                return
-            }
-            if let data = Self.cache.object(forKey: url as NSURL) {
-                imageData = data as Data
-                isLoading = false
-                return
-            }
-            URLSession.shared.dataTaskPublisher(for: url)
-                .map { $0.data }
-                .replaceError(with: nil)
-                .receive(on: DispatchQueue.main)
-                .sink { [weak self] in
-                    if let data = $0 {
-                        Self.cache.setObject(data as NSData, forKey: url as NSURL)
-                        self?.imageData = data
-                    }
-                    self?.isLoading = false
+            
+            imageQueue.sync { [weak self] in
+                guard let self = self else {
+                    return
                 }
-                .store(in: &cancellables)
+                guard let url = url else {
+                    self.isLoading = false
+                    return
+                }
+                if let data = Self.cache.object(forKey: url as NSURL) {
+                    self.imageData = data as Data
+                    self.isLoading = false
+                    return
+                }
+                URLSession.shared.dataTaskPublisher(for: url)
+                    .map { $0.data }
+                    .replaceError(with: nil)
+                    .receive(on: DispatchQueue.main)
+                    .sink { [weak self] in
+                        if let data = $0 {
+                            Self.cache.setObject(data as NSData, forKey: url as NSURL)
+                            self?.imageData = data
+                        }
+                        self?.isLoading = false
+                    }
+                    .store(in: &self.cancellables)
+                
+            }
+
         }
     }
 }
