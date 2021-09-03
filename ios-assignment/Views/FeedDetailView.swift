@@ -8,14 +8,39 @@
 import SwiftUI
 import WebKit
 
+class FeedDetailViewModel: ObservableObject {
+    
+    let feed: FeedNews
+    
+    init (feed: FeedNews) {
+        self.feed = feed
+    }
+}
+
 struct FeedDetailView: View {
-  
-    @ObservedObject var model : WebViewModel
+    
+    @ObservedObject var viewModel : FeedDetailViewModel
+    @ObservedObject var webViewModel : WebViewModel
+    @ObservedObject var segmentViewModel : SegmentViewModel
     
     var body: some View {
-        LoadingView(isShowing: self.$model.isLoading) {
-            WebView(viewModel: self.model)
+        VStack {
+            if segmentViewModel.selection == 0 {//Web
+                LoadingView(isShowing: self.$webViewModel.isLoading) {
+                    WebView(viewModel: self.webViewModel)
+                }
+            } else {//Smart
+                ReaderFeedDetailView(viewModel: viewModel)
+            }
         }
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                ReaderSegmentView(viewModel: segmentViewModel)
+            }
+        }
+
+        
     }
 }
 
@@ -40,6 +65,10 @@ struct WebView: UIViewRepresentable {
 
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
             self.viewModel.isLoading = false
+        }
+        
+        func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+            self.viewModel.isLoading = true
         }
     }
     

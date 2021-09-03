@@ -21,7 +21,12 @@ struct FeedsView: View {
                     ProgressView()
                 } else {
                     List(viewModel.feeds) { feed in
-                        NavigationLink(destination: FeedDetailView(model: WebViewModel(url: feed.newsURL) ) ) {
+                        NavigationLink(destination:
+                                        FeedDetailView(viewModel:FeedDetailViewModel(feed: feed),
+                                                       webViewModel: WebViewModel(url: feed.newsURL),
+                                                       segmentViewModel: SegmentViewModel()
+                                        )
+                        ) {
                             FeedView(feed: feed)
                         }
                     }
