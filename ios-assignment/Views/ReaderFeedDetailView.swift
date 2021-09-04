@@ -22,9 +22,12 @@ struct ReaderFeedDetailView: View {
     }
 }
 
+//MARK: - FeedNewsContentView
 struct FeedNewsContentView: View {
     // MARK: - PROPERTIES
     var item:FeedContentNews
+    
+    @State var showPopover = false
 
     // MARK: - CONTENT
     var body: some View {
@@ -51,6 +54,15 @@ struct FeedNewsContentView: View {
                         HStack {
                             if !item.imageURL.isEmpty {
                                 FeedImageView(url: URL(string: item.imageURL), width: UIScreen.main.bounds.size.width - 20, height: 200.0)
+                                    .gesture(
+                                        TapGesture()
+                                            .onEnded { _ in
+                                                self.showPopover = true
+                                            }
+                                    )
+                                    .popover(isPresented: $showPopover) {
+                                        PopOverImageView(showPopover: $showPopover, imageURL: item.imageURL)
+                                    }
                             }
                         }//image
                         if (!item.imageDescription.isEmpty) {
@@ -70,5 +82,35 @@ struct FeedNewsContentView: View {
             }
         }
         .padding(.horizontal, 10)
+    }
+}
+
+//MARK: - PopOverImageView
+struct PopOverImageView: View {
+    @Binding var showPopover: Bool
+    
+    var imageURL : String
+    
+    var body: some View {
+        
+        VStack {
+            HStack (spacing: 5) {
+                Spacer()
+                Button(action: {
+                    self.showPopover = false
+                }, label: {
+                    Text("Close")
+                        .foregroundColor(Color.white)
+                }).padding(.top, 10)
+                Spacer()
+                    .frame(width: 5)
+            }
+            
+            Spacer()
+            FeedImageView(url: URL(string: imageURL), width: UIScreen.main.bounds.size.width - 20, height: 200.0)
+            Spacer()
+
+        }
+        .background(Color.black.opacity(0.5))
     }
 }
