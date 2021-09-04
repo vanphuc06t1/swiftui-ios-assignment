@@ -21,7 +21,7 @@ extension FeedsView {
         @Published var isLoading = false
 
         //MARK: - Properties
-        private let urlString = "https://jsonkeeper.com/b/ZN51"
+        private let urlString = "https://jsonkeeper.com/b/OKZZ"
         private var cancellables = Set<AnyCancellable>()
         
         //MARK: - Lifecycles

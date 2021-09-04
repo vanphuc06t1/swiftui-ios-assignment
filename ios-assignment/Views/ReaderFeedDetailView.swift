@@ -14,7 +14,7 @@ struct ReaderFeedDetailView: View {
     var body: some View {
         ScrollView {
             VStack (alignment: .center, spacing: 5) {
-                ForEach(self.viewModel.feed.contents, id:\.id) { item in
+                ForEach(self.viewModel.feedContents, id:\.id) { item in
                     FeedNewsContentView(item: item)
                 }
             }//News content
@@ -32,7 +32,7 @@ struct ReaderFeedDetailView: View {
                 Spacer()
             }//title
             VStack (alignment: .center, spacing: 10) {
-                ForEach(self.viewModel.feed.relateds, id:\.id) { item in
+                ForEach(self.viewModel.feedRelateds, id:\.id) { item in
                     FeedRelatedNewsView(item: item)
                 }
             }//Related News
@@ -52,19 +52,19 @@ struct FeedNewsContentView: View {
     // MARK: - CONTENT
     var body: some View {
         VStack {
-            ZStack (alignment: .bottom) {
-                VStack {
+            ZStack (alignment: .top) {
+                VStack (spacing: 5) {
+                    Spacer()
+                        .frame(height: 5)
                     if (!item.title.isEmpty) {
-                        Spacer()
                         HStack  {
                             Text(item.title)
                                 .font(.headline)
                                 .frame(alignment: .leading)
                             Spacer()
                         }//title
-                        Spacer()
                     }
-                    VStack (spacing: 5) {
+                    VStack {
                         VStack {
                             if (!item.text.isEmpty) {
                                 Text(item.text)
@@ -90,11 +90,9 @@ struct FeedNewsContentView: View {
                                 .font(.footnote)//image description
                         }
                     }
-                    Spacer()
-                    VStack (spacing: 5) {
+                    VStack {
                         Text(item.content)
                             .font(.body)
-                            .padding(.bottom, 5)//content
                     }
                     
                 }

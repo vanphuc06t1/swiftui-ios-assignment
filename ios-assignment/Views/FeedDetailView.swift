@@ -8,15 +8,6 @@
 import SwiftUI
 import WebKit
 
-class FeedDetailViewModel: ObservableObject {
-    
-    let feed: FeedNews
-    
-    init (feed: FeedNews) {
-        self.feed = feed
-    }
-}
-
 struct FeedDetailView: View {
     
     @ObservedObject var viewModel : FeedDetailViewModel
@@ -30,7 +21,9 @@ struct FeedDetailView: View {
                     WebView(viewModel: self.webViewModel)
                 }
             } else {//Smart
-                ReaderFeedDetailView(viewModel: viewModel)
+                LoadingView(isShowing: self.$viewModel.isLoading) {
+                    ReaderFeedDetailView(viewModel: viewModel)
+                }
             }
         }
         .navigationBarTitleDisplayMode(.inline)
@@ -38,6 +31,10 @@ struct FeedDetailView: View {
             ToolbarItem(placement: .principal) {
                 ReaderSegmentView(viewModel: segmentViewModel)
             }
+        }
+        .onAppear {
+            self.viewModel.loadFeedContents()
+            self.viewModel.loadFeedRelateds()
         }
 
         

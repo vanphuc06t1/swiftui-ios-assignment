@@ -16,8 +16,8 @@ struct FeedNews: Identifiable, Decodable, Hashable {
     let text: String
     let date: String
     let newsURL: String
-    let contents: [FeedContentNews]
-    let relateds: [FeedRelatedNews]
+    let idContents: Int
+    let idRelateds: Int
     
     private enum CodingKeys : String, CodingKey {
         case id,
@@ -27,8 +27,8 @@ struct FeedNews: Identifiable, Decodable, Hashable {
              title,
              date,
              newsURL = "news_url",
-             contents = "contents",
-             relateds = "topics"
+             idContents = "id_contents",
+             idRelateds = "id_topics"
     }
 }
 
