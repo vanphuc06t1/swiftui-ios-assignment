@@ -17,7 +17,27 @@ struct ReaderFeedDetailView: View {
                 ForEach(self.viewModel.feed.contents, id:\.id) { item in
                     FeedNewsContentView(item: item)
                 }
-            }
+            }//News content
+            Spacer()
+                .frame(height: 10)
+            Divider()
+            Spacer()
+                .frame(height: 10)
+            HStack  {
+                Spacer()
+                    .frame(width: 10)
+                Text("RELATED NEWS")
+                    .font(.title)
+                    .frame(alignment: .leading)
+                Spacer()
+            }//title
+            VStack (alignment: .center, spacing: 10) {
+                ForEach(self.viewModel.feed.relateds, id:\.id) { item in
+                    FeedRelatedNewsView(item: item)
+                }
+            }//Related News
+            Spacer()
+                .frame(height: 10)
         }
     }
 }
@@ -112,5 +132,35 @@ struct PopOverImageView: View {
 
         }
         .background(Color.black.opacity(0.5))
+    }
+}
+
+
+//MARK: - FeedRelatedNewsView
+struct FeedRelatedNewsView: View {
+    // MARK: - Properties
+    var item:FeedRelatedNews
+
+    // MARK: - Content
+    var body: some View {
+        
+        VStack {
+            ZStack (alignment: .bottom) {
+                VStack {
+                    HStack {
+                        FeedImageView(url: URL(string: item.imageURL), width: 120, height: 80.0)
+                            .frame(alignment:.topLeading)
+                        Spacer()
+                            .frame(width:10)
+                        Text(item.title)
+                            .font(.system(size: 14, weight: .bold, design: .default))
+                            .frame(alignment:.topLeading)
+                        Spacer()
+                    }.frame(alignment:.topLeading)
+                }
+            }
+        }
+        .padding(.horizontal, 10)
+        
     }
 }

@@ -10,7 +10,7 @@ Apply MVVM architecture pattern.
  	 * FeedView handle item cell for list view that showing each feed with image
 
  2. **Display feed news detail view**
-	 * FeedDetailView handles showing detail of one feed news. Showing with webview
+	 * FeedDetailView handles segment view showing detail of one feed news. Tab WEB and SMART
 	 * WebView UIViewRepresentable handle loading webview
  	 * WebViewModel handle the view model for loading webview 
 
@@ -19,12 +19,21 @@ Apply MVVM architecture pattern.
 	 * protocol ImageViewModel and class ImageViewModelImpl for viewmodel loading image and caching
 
  4. **FeedNews model**
-	 * FeedNews declare one feed new item model
+	 * FeedNews declare one item feed news model
+	 * FeedContentNews declare one item feed content news model
+	 * FeedRelatedNews declare one item feed related news model
 
- 5. **Common**
+ 5. **Smart View**
+	 * ReaderFeedDetailView is container view that show feed news content items and related news
+	 * FeedNewsContentView is one feed news item view
+     * FeedRelatedNewsView show related news of each feed new
+	 * PopOverImageView is display popover image view in smart view
+
+ 6. **Common**
 	 * LoadingView and ActivityIndicatorView for loading activity view
+	 * ReaderSegmentView is custom segment view
 
-### Video Demo
+## Video Demo
 
 https://user-images.githubusercontent.com/4506079/131960208-c7ec5656-e09c-450f-82da-c63ec99e6ea4.mov
 
