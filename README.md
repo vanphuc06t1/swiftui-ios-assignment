@@ -35,6 +35,8 @@ Apply MVVM architecture pattern.
 
 ## Video Demo
 
+Youtube: https://youtu.be/j6zZkpVWP1I
+
 https://user-images.githubusercontent.com/4506079/132082373-7a59c8dd-0ccc-4d7f-8899-61af8a69f67b.mov
 
  
